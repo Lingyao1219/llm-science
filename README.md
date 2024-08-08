@@ -1,4 +1,4 @@
-# Project Title
+# Academic Collaboration on Large Language Model (LLM) Research
 
 The code aims to support the analysis in the paper entitled "Academic collaboration on large language model studies increases overall but varies across disciplines."
 
