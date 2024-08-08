@@ -12,7 +12,8 @@ The code aims to support the analysis in the paper entitled "Academic collaborat
 - [batch.py](https://github.com/Lingyao1219/llm-science/blob/main/batch.py): This code applies GPT4o batch method. 
 - [generate_json.py](https://github.com/Lingyao1219/llm-science/blob/main/generate_json.py): This code generates json files for implementaing the GPT4o batch method. 
 - [model.py](https://github.com/Lingyao1219/llm-science/blob/main/model.py): This code implements several popular LLMs, including GPT4, GPT3.5, and Gemini.
-- [prompt.py](https://github.com/Lingyao1219/llm-science/blob/main/prompt.py): This code lists the prompt design for running GPT4o batch method. 
+- [prompt.py](https://github.com/Lingyao1219/llm-science/blob/main/prompt.py): This code lists the prompt design for running GPT4o batch method.
+- [Data_prepare_BSTS.py](https://github.com/Lingyao1219/llm-science/blob/main/Data_prepare_BSTS.py): This code prepares the data for BSTS analysis.
 
 ### Jupyter Notebooks
 - [batch_check_paper.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/batch_check_paper.ipynb): This code uses GPT4o batch method to check whether a paper is relevant to the topic of LLMs.
@@ -23,3 +24,4 @@ The code aims to support the analysis in the paper entitled "Academic collaborat
 
 ### R Scripts
 - [network_visualization.R](https://github.com/Lingyao1219/llm-science/blob/main/network_visualization.R): this code visualizes networks based on Fruchterman-reingold layout. Louvain modularity is used to cluster the networks into subgroups. Nodes and edges are filtered by the top degree centrality.
+- [BSTS.R](https://github.com/Lingyao1219/llm-science/blob/main/BSTS.R): This code runs the BSTS model.
