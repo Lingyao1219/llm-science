@@ -4,6 +4,7 @@ The code aims to support the analysis in the paper entitled "Academic collaborat
 
 ## Files and Directories
 
+### Data Files
 - [data](https://github.com/Lingyao1219/llm-science/tree/main/data): This directory contains three edgelists which are used for network analysis and visualization. 
 
 ### Python Scripts
