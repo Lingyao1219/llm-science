@@ -90,3 +90,13 @@ library(forecast)
 
 ## License
 This project is covered under the Apache 2.0 License.
+
+## Reference
+```
+@article{@article{li2024academic,
+  title={Academic collaboration on large language model studies increases overall but varies across disciplines},
+  author={Li, Lingyao and Dinh, Ly and Hu, Songhua and Hemphill, Libby},
+  journal={arXiv preprint arXiv:2408.04163},
+  year={2024}
+}
+```
