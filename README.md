@@ -3,10 +3,12 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [System Requirements](#system requirement)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+- [System Requirements](#System Requirements)
+- [Installation Guide](#Installation Guide)
+- [Instructions for Use](#Instructions for Use)
+- [Data Files](#Data Files)
+- [License](#License)
+- [Reference](#Reference)
 
 ## Overview
 This repository contains code to support the analysis presented in the paper "Academic collaboration on large language model studies increases overall but varies across disciplines." The project aims to examine collaboration patterns in LLM research across different academic fields.
@@ -69,7 +71,7 @@ library(reshape2)
 library(forecast)
 ```
 
-## Instructions for use
+## Instructions for Use
 
 ### Python Scripts
 - [batch.py](https://github.com/Lingyao1219/llm-science/blob/main/batch.py): This code applies GPT4o batch method. 
