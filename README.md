@@ -1,5 +1,12 @@
 # Academic Collaboration on Large Language Model (LLM) Research
 
+## Table of Contents
+
+- [Overview](#overview)
+- [System Requirements](#system requirement)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Overview
 This repository contains code to support the analysis presented in the paper "Academic collaboration on large language model studies increases overall but varies across disciplines." The project aims to examine collaboration patterns in LLM research across different academic fields.
