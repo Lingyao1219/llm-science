@@ -10,10 +10,12 @@ This repository contains code to support the analysis presented in the paper "Ac
 
 ## Installation Guide
 1. Clone this repository:
+```bash
 git clone https://github.com/Lingyao1219/llm-science.git
 cd llm-science
 
 2. Install required Python packages:
+```python
 pip3 install pandas matplotlib ast uuid openai google-generativeai networkx networkit powerlaw
 
 3. Install required R packages:
@@ -21,11 +23,41 @@ pip3 install pandas matplotlib ast uuid openai google-generativeai networkx netw
 install.packages(c("ggraph", "igraph", "ggforce", "concaveman", "RColorBrewer", "ggrepel", "tidygraph", "ggplot2", "patchwork", "CausalImpact", "car", "scales", "reshape2", "forecast"))
 
 
-## Instructions for use
+### Python Dependencies
+import datetime
+import pandas as pd
+from ast import literal_eval
+import matplotlib.pyplot as plt
+import os
+import ast
+import uuid
+import string
+import json
+import time
+from openai import OpenAI
+import google.generativeai as genai
+import networkx as nx
+import networkit as nk
+import powerlaw
 
-### Data Files
-- [data](https://github.com/Lingyao1219/llm-science/tree/main/data): This directory contains three edgelists which are used for network analysis and visualization.
-- The original and cleaned data files are published in https://doi.org/10.5281/zenodo.13118978.
+### R Dependencies
+library(ggraph)
+library(igraph)
+library(ggforce)
+library(concaveman)
+library(RColorBrewer)
+library(ggrepel)
+library(tidygraph)
+library(ggplot2)
+library(patchwork)
+library(CausalImpact)
+library(car)
+library(scales)
+library(reshape2)
+library(forecast)
+
+
+## Instructions for use
 
 ### Python Scripts
 - [batch.py](https://github.com/Lingyao1219/llm-science/blob/main/batch.py): This code applies GPT4o batch method. 
@@ -42,8 +74,14 @@ install.packages(c("ggraph", "igraph", "ggforce", "concaveman", "RColorBrewer", 
 - [network_projection_and_metrics.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/network_projection_and_metrics.ipynb): this code is used for bipartite projection of networks and calculation of network metrics (overall cohesion, topology, community structure, and centrality measures).
 
 ### R Scripts
-- [network_visualization.R](https://github.com/Lingyao1219/llm-science/blob/main/network_visualization.R): this code visualizes networks based on Fruchterman-reingold layout. Louvain modularity is used to cluster the networks into subgroups. Nodes and edges are filtered by the top degree centrality.
+- [network_visualization.R](https://github.com/Lingyao1219/llm-science/blob/main/network_visualization.R): this code visualizes networks based on Fruchterman-reingold layout. Louvain modularity is used to cluster the networks into subgroups. The top degree centrality filters nodes and edges.
 - [BSTS.R](https://github.com/Lingyao1219/llm-science/blob/main/BSTS.R): This code runs the BSTS model.
+
+
+## Data Files
+- [data](https://github.com/Lingyao1219/llm-science/tree/main/data): This directory contains three edgelists which are used for network analysis and visualization.
+- The original and cleaned data files are published in https://doi.org/10.5281/zenodo.13118978.
+
 
 ## License
 This project is covered under the Apache 2.0 License.
