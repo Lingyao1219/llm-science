@@ -3,10 +3,10 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [System Requirements](#System Requirements)
-- [Installation Guide](#Installation Guide)
-- [Instructions for Use](#Instructions for Use)
-- [Data Files](#Data Files)
+- [System Requirements](#System-Requirements)
+- [Installation Guide](#Installation-Guide)
+- [Instructions for Use](#Instructions-for-Use)
+- [Data Files](#Data-Files)
 - [License](#License)
 - [Reference](#Reference)
 
