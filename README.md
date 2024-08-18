@@ -13,17 +13,20 @@ This repository contains code to support the analysis presented in the paper "Ac
 ```bash
 git clone https://github.com/Lingyao1219/llm-science.git
 cd llm-science
+```
 
 2. Install required Python packages:
-```python
+```
 pip3 install pandas matplotlib ast uuid openai google-generativeai networkx networkit powerlaw
+```
 
 3. Install required R packages:
-```R
+```
 install.packages(c("ggraph", "igraph", "ggforce", "concaveman", "RColorBrewer", "ggrepel", "tidygraph", "ggplot2", "patchwork", "CausalImpact", "car", "scales", "reshape2", "forecast"))
-
+```
 
 ### Python Dependencies
+```
 import datetime
 import pandas as pd
 from ast import literal_eval
@@ -39,8 +42,10 @@ import google.generativeai as genai
 import networkx as nx
 import networkit as nk
 import powerlaw
+```
 
 ### R Dependencies
+```
 library(ggraph)
 library(igraph)
 library(ggforce)
@@ -55,7 +60,7 @@ library(car)
 library(scales)
 library(reshape2)
 library(forecast)
-
+```
 
 ## Instructions for use
 
