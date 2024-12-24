@@ -93,7 +93,7 @@ library(forecast)
 
 
 ## Data Files
-- [Network data](https://github.com/Lingyao1219/llm-science/tree/main/Network%20data)): This directory contains three edgelists which are used for network analysis and visualization.
+- [Network data](https://github.com/Lingyao1219/llm-science/tree/main/Network%20data): This directory contains three edgelists which are used for network analysis and visualization.
 - The original and cleaned data files are published in https://doi.org/10.5281/zenodo.13118978.
 
 
