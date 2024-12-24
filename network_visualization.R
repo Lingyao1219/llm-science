@@ -19,252 +19,232 @@ library(tidygraph)
 library(ggplot2)
 #install.packages("patchwork")
 library(patchwork)
+#install.packages("Cairo")
+library(Cairo)
 
 disciplines = read.csv("disciplines_projected_edgelist.csv")
 institutions = read.csv("institutions_projected_edgelist.csv")
-countries = read.csv("countries_projected_edgelist.csv")
+#countries = read.csv("countries_projected_edgelist.csv")
 
 ## Create function for plotting network and communities
-plot_disciplines <- function(net, title) {
-  cluster <- as.factor(cluster_louvain(net)$membership)
+plot_disciplines <- function(net, title, max_clusters = 5, label_percentage = 0.7) {
+  # Cluster the network using Louvain algorithm
+  louvain_clusters <- cluster_louvain(net)
+  
+  # Calculate cluster sizes
+  cluster_sizes <- sort(table(membership(louvain_clusters)), decreasing = TRUE)
+  
+  # If more than max_clusters exist, merge smaller clusters
+  if (length(cluster_sizes) > max_clusters) {
+    top_clusters <- as.numeric(names(cluster_sizes)[1:max_clusters])
+    
+    cluster_mapping <- membership(louvain_clusters)
+    
+    # Reassign smaller clusters to the nearest top cluster using spatial proximity
+    coords <- layout_with_fr(net)
+    
+    for (i in which(!cluster_mapping %in% top_clusters)) {
+      distances <- sapply(top_clusters, function(cluster) {
+        cluster_coords <- coords[cluster_mapping == cluster, ]
+        min(dist(rbind(coords[i, ], cluster_coords)))
+      })
+      
+      cluster_mapping[i] <- top_clusters[which.min(distances)]
+    }
+    
+    cluster_membership <- factor(cluster_mapping, levels = top_clusters)
+  } else {
+    cluster_membership <- factor(membership(louvain_clusters))
+  }
+  
+  # Create layout
+  layout <- create_layout(net, layout = "fr")
+  layout$x <- layout$x * 70
+  layout$y <- layout$y * 70
   
   # Calculate degree centrality
   degree_centrality <- degree(net)
   
-  # Create a data frame for the layout and centrality 
-  layout <- create_layout(net, layout = "fr") ## fix repulsion
-  
-  # Scale the layout to increase distances (spread nodes apart)
-  layout$x <- layout$x * 70  # Adjust the multiplier to increase/decrease the spread
-  layout$y <- layout$y * 70  # Adjust the multiplier to increase/decrease the spread
-  
+  # Prepare layout data
   layout$degree_centrality <- degree_centrality
-  layout$cluster <- cluster
-  layout$name <- V(net)$name  # Assuming the node names are in V(net)$name
+  layout$cluster <- cluster_membership
+  layout$name <- V(net)$name
   
-  # Identify top 3% nodes within each cluster based on degree centrality
-  top_nodes <- layout %>%
-    group_by(cluster) %>%
-    mutate(rank = rank(-degree_centrality)) %>%
-    filter(rank <= 0.4 * n()) %>% ## adjust % here
+  # Label a higher percentage of nodes by degree centrality in each cluster
+  top_nodes <- layout %>% 
+    group_by(cluster) %>% 
+    mutate(rank = rank(-degree_centrality)) %>% 
+    filter(rank <= label_percentage * n()) %>% 
     pull(name)
   
-  # Create label column for top nodes
   layout$label <- ifelse(layout$name %in% top_nodes, layout$name, NA)
   
+  # Plot the network
   set.seed(4343)
-  ggraph(layout) +  # Use Fruchterman-Reingold layout for spreading nodes
-    geom_edge_link(width = 0.2, alpha = 0.1) +  # Change opacity of edges
-    geom_node_point(aes(fill = cluster),
-                    shape = 21,
-                    size = 5,
-                    alpha = 0.75) +
-    geom_mark_hull(
-      aes(
-        x = x,
-        y = y,
-        group = cluster,
-        fill = cluster
-      ),
-      concavity = 4,
-      expand = unit(2, "mm"),
-      alpha = 0.25
-    ) +
-    geom_text_repel(
-      aes(x = x, y = y, label = label),
-      size = 5,  # Increase font size
-      fontface = "bold",  # Make font bold
-      family = "Garamond",  # Change to Arial or Garamond
-      box.padding = 0.3,
-      point.padding = 0.3,
-      na.rm = TRUE  # Remove points with NA labels
-    ) +  # Add node labels with repel
-    scale_fill_brewer(palette = "Set2") +
-    theme_graph() +
+  ggraph(layout) + 
+    geom_edge_link(width = 0.2, alpha = 0.05) + 
+    geom_node_point(aes(fill = cluster), shape = 21, size = 5, alpha = 0.75) + 
+    geom_mark_hull(aes(x = x, y = y, group = cluster, fill = cluster), 
+                   concavity = 4, 
+                   expand = unit(2, "mm"), 
+                   alpha = 0.25) + 
+    geom_text_repel(aes(x = x, y = y, label = label), 
+                    size = 4, 
+                    fontface = "bold", 
+                    family = "Garamond", 
+                    box.padding = 0.3, 
+                    point.padding = 0.3, 
+                    na.rm = TRUE) + 
+    scale_fill_brewer(palette = "Set2") + 
+    theme_graph() + 
     ggtitle(title) + 
     theme(
-      text = element_text(family = "Garamond"),  
-      plot.title = element_text(size = 14, face = "bold", family = "Garamond"),
-      plot.subtitle = element_text(size = 12, family = "Garamond"),
-      legend.text = element_text(size = 10, family = "Garamond"),
-      legend.title = element_text(size = 12, family = "Garamond"),
-      legend.box.margin = margin(t = 5, r = 0, b = 0, l = -20)  # move legend box
+      legend.position = "none",
+      text = element_text(family = "Garamond", size = 16),
+      plot.title = element_text(size = 14, face = "bold", family = "Garamond")
     )
 }
 
-
-plot_institutions <- function(net, title) {
-  cluster <- as.factor(cluster_louvain(net)$membership)
+plot_institutions <- function(net, title, max_clusters = 5, label_percentage = 0.7) {
+  # Cluster the network using Louvain algorithm
+  louvain_clusters <- cluster_louvain(net)
+  
+  # Calculate cluster sizes
+  cluster_sizes <- sort(table(membership(louvain_clusters)), decreasing = TRUE)
+  
+  # If more than max_clusters exist, merge smaller clusters
+  if (length(cluster_sizes) > max_clusters) {
+    top_clusters <- as.numeric(names(cluster_sizes)[1:max_clusters])
+    
+    cluster_mapping <- membership(louvain_clusters)
+    
+    # Reassign smaller clusters to the nearest top cluster using spatial proximity
+    coords <- layout_with_fr(net)
+    
+    for (i in which(!cluster_mapping %in% top_clusters)) {
+      distances <- sapply(top_clusters, function(cluster) {
+        cluster_coords <- coords[cluster_mapping == cluster, ]
+        min(dist(rbind(coords[i, ], cluster_coords)))
+      })
+      
+      cluster_mapping[i] <- top_clusters[which.min(distances)]
+    }
+    
+    cluster_membership <- factor(cluster_mapping, levels = top_clusters)
+  } else {
+    cluster_membership <- factor(membership(louvain_clusters))
+  }
+  
+  # Create layout
+  layout <- create_layout(net, layout = "fr")
+  layout$x <- layout$x * 70
+  layout$y <- layout$y * 70
   
   # Calculate degree centrality
   degree_centrality <- degree(net)
   
-  # Create a data frame for the layout and centrality 
-  layout <- create_layout(net, layout = "fr") ## fix repulsion
-  
-  # Scale the layout to increase distances (spread nodes apart)
-  layout$x <- layout$x * 70  # Adjust the multiplier to increase/decrease the spread
-  layout$y <- layout$y * 70  # Adjust the multiplier to increase/decrease the spread
-  
+  # Prepare layout data
   layout$degree_centrality <- degree_centrality
-  layout$cluster <- cluster
-  layout$name <- V(net)$name  # Assuming the node names are in V(net)$name
+  layout$cluster <- cluster_membership
+  layout$name <- V(net)$name
   
-  # Identify top 3% nodes within each cluster based on degree centrality
-  top_nodes <- layout %>%
-    group_by(cluster) %>%
-    mutate(rank = rank(-degree_centrality)) %>%
-    filter(rank <= 0.23 * n()) %>% ## adjust % here
+  # Label a higher percentage of nodes by degree centrality in each cluster
+  top_nodes <- layout %>% 
+    group_by(cluster) %>% 
+    mutate(rank = rank(-degree_centrality)) %>% 
+    filter(rank <= label_percentage * n()) %>% 
     pull(name)
   
-  # Create label column for top nodes
   layout$label <- ifelse(layout$name %in% top_nodes, layout$name, NA)
   
+  # Plot the network
   set.seed(4343)
-  ggraph(layout) +  # Use Fruchterman-Reingold layout for spreading nodes
-    geom_edge_link(width = 0.2, alpha = 0.05) +  # Change opacity of edges
-    geom_node_point(aes(fill = cluster),
-                    shape = 21,
-                    size = 5,
-                    alpha = 0.75) +
-    geom_mark_hull(
-      aes(
-        x = x,
-        y = y,
-        group = cluster,
-        fill = cluster
-      ),
-      concavity = 4,
-      expand = unit(2, "mm"),
-      alpha = 0.25
-    ) +
-    geom_text_repel(
-      aes(x = x, y = y, label = label),
-      size = 5,  # Increase font size
-      fontface = "bold",  # Make font bold
-      family = "Garamond",  # Change to Arial or Garamond
-      box.padding = 0.3,
-      point.padding = 0.3,
-      na.rm = TRUE  # Remove points with NA labels
-    ) +  # Add node labels with repel
-    scale_fill_brewer(palette = "Set2") +
-    theme_graph() +
-    ggtitle(title) +
-    theme(
-      text = element_text(family = "Garamond"),  # Change to Arial or Garamond
-      plot.title = element_text(size = 14, face = "bold", family = "Garamond"),
-      plot.subtitle = element_text(size = 12, family = "Garamond"),
-      legend.text = element_text(size = 10, family = "Garamond"),
-      legend.title = element_text(size = 12, family = "Garamond")
-    )
-}
-
-plot_countries <- function(net, title) {
-  cluster <- as.factor(cluster_louvain(net)$membership)
-  
-  # Calculate degree centrality
-  degree_centrality <- degree(net)
-  
-  # Create a data frame for the layout and centrality 
-  layout <- create_layout(net, layout = "fr") ## fix repulsion
-  
-  # Scale the layout to increase distances (spread nodes apart)
-  layout$x <- layout$x * 50  # Adjust the multiplier to increase/decrease the spread
-  layout$y <- layout$y * 50  # Adjust the multiplier to increase/decrease the spread
-  
-  layout$degree_centrality <- degree_centrality
-  layout$cluster <- cluster
-  layout$name <- V(net)$name  # Assuming the node names are in V(net)$name
-  
-  # Identify top 3% nodes within each cluster based on degree centrality
-  top_nodes <- layout %>%
-    group_by(cluster) %>%
-    mutate(rank = rank(-degree_centrality)) %>%
-    filter(rank <= 0.8 * n()) %>% ## adjust % here
-    pull(name)
-  
-  # Create label column for top nodes
-  layout$label <- ifelse(layout$name %in% top_nodes, layout$name, NA)
-  
-  set.seed(4343)
-  ggraph(layout) +  # Use Fruchterman-Reingold layout for spreading nodes
-    geom_edge_link(width = 0.2, alpha = 0.1) +  # Change opacity of edges
-    geom_node_point(aes(fill = cluster),
-                    shape = 21,
-                    size = 5,
-                    alpha = 0.75) +
-    geom_mark_hull(
-      aes(
-        x = x,
-        y = y,
-        group = cluster,
-        fill = cluster
-      ),
-      concavity = 4,
-      expand = unit(2, "mm"),
-      alpha = 0.25
-    ) +
-    geom_text_repel(
-      aes(x = x, y = y, label = label),
-      size = 5,  # Increase font size
-      fontface = "bold",  # Make font bold
-      family = "Garamond",  # Change to Arial or Garamond
-      box.padding = 0.3,
-      point.padding = 0.3,
-      na.rm = TRUE  # Remove points with NA labels
-    ) +  # Add node labels with repel
-    scale_fill_brewer(palette = "Set2") +
-    theme_graph() +
+  ggraph(layout) + 
+    geom_edge_link(width = 0.2, alpha = 0.05) + 
+    geom_node_point(aes(fill = cluster), shape = 21, size = 5, alpha = 0.75) + 
+    geom_mark_hull(aes(x = x, y = y, group = cluster, fill = cluster), 
+                   concavity = 4, 
+                   expand = unit(2, "mm"), 
+                   alpha = 0.25) + 
+    geom_text_repel(aes(x = x, y = y, label = label), 
+                    size = 4, 
+                    fontface = "bold", 
+                    family = "Garamond", 
+                    box.padding = 0.3, 
+                    point.padding = 0.3, 
+                    na.rm = TRUE) + 
+    scale_fill_brewer(palette = "Set2") + 
+    theme_graph() + 
     ggtitle(title) + 
     theme(
-      text = element_text(family = "Garamond"),  
-      plot.title = element_text(size = 14, face = "bold", family = "Garamond"),
-      plot.subtitle = element_text(size = 12, family = "Garamond"),
-      legend.text = element_text(size = 10, family = "Garamond"),
-      legend.title = element_text(size = 12, family = "Garamond")
+      legend.position = "none",
+      text = element_text(family = "Garamond", size = 16),
+      plot.title = element_text(size = 14, face = "bold", family = "Garamond")
     )
 }
 
-## Filter network to top 10% degree centrality nodes so size is manageable
-filter_top_centrality_countries <- function(edges) {
+# Read the data for LLM, ML, and Non-LLM
+llm_institutions <- read.csv("LLM_institutions_projected_edgelist.csv")
+ml_institutions <- read.csv("ML_institutions_projected_edgelist.csv")
+non_llm_institutions <- read.csv("Non-LLM_institutions_projected_edgelist.csv")
+
+# Filter top centrality for each dataset
+filter_top_centrality_institutions <- function(edges, cutoff_percent = 0.985) {
   net <- graph_from_data_frame(d = edges, directed = FALSE)
   degree_cent <- degree(net, mode = "all")
-  cutoff <- quantile(degree_cent, 0.8)
+  cutoff <- quantile(degree_cent, cutoff_percent)
   top_nodes <- V(net)[degree_cent >= cutoff]
   sub_net <- induced_subgraph(net, top_nodes)
   return(sub_net)
 }
 
-filter_top_centrality_disciplines <- function(edges) {
+llm_filtered <- filter_top_centrality_institutions(llm_institutions)
+ml_filtered <- filter_top_centrality_institutions(ml_institutions)
+non_llm_filtered <- filter_top_centrality_institutions(non_llm_institutions)
+
+# Plot each network
+llm_plot <- plot_institutions(llm_filtered, "LLM")
+ml_plot <- plot_institutions(ml_filtered, "ML")
+non_llm_plot <- plot_institutions(non_llm_filtered, "Non-LLM")
+
+combined_plot <- llm_plot / (ml_plot | non_llm_plot)
+print(combined_plot)
+
+# Save with Cairo device for better rendering
+CairoPDF("combined_institutions_network_plot.pdf", width = 20, height = 16)
+print(combined_plot)
+dev.off()
+
+
+### For disciplines
+# Read the data for LLM, ML, and Non-LLM disciplines
+llm_disciplines <- read.csv("LLM_disciplines_projected_edgelist.csv")
+ml_disciplines <- read.csv("ML_disciplines_projected_edgelist.csv")
+non_llm_disciplines <- read.csv("Non-LLM_disciplines_projected_edgelist.csv")
+
+# Filter top centrality for each dataset
+filter_top_centrality_disciplines <- function(edges, cutoff_percent = 0.985) {
   net <- graph_from_data_frame(d = edges, directed = FALSE)
   degree_cent <- degree(net, mode = "all")
-  cutoff <- quantile(degree_cent, 0.97)
+  cutoff <- quantile(degree_cent, cutoff_percent)
   top_nodes <- V(net)[degree_cent >= cutoff]
   sub_net <- induced_subgraph(net, top_nodes)
   return(sub_net)
 }
 
-filter_top_centrality_institutions <- function(edges) {
-  net <- graph_from_data_frame(d = edges, directed = FALSE)
-  degree_cent <- degree(net, mode = "all")
-  cutoff <- quantile(degree_cent, 0.975)
-  top_nodes <- V(net)[degree_cent >= cutoff]
-  sub_net <- induced_subgraph(net, top_nodes)
-  return(sub_net)
-}
+llm_filtered <- filter_top_centrality_disciplines(llm_disciplines)
+ml_filtered <- filter_top_centrality_disciplines(ml_disciplines)
+non_llm_filtered <- filter_top_centrality_disciplines(non_llm_disciplines)
 
-disciplines_filtered <- filter_top_centrality_disciplines(disciplines)
-institutions_filtered <- filter_top_centrality_institutions(institutions)
-countries_filtered <- filter_top_centrality_countries(countries)
+# Plot each network
+llm_plot <- plot_disciplines(llm_filtered, "LLM")
+ml_plot <- plot_disciplines(ml_filtered, "ML")
+non_llm_plot <- plot_disciplines(non_llm_filtered, "Non-LLM")
 
-countries_net = plot_countries(countries_filtered, "Countries Network")
-disciplines_net = plot_disciplines(disciplines_filtered, "Disciplines Network")
-institutions_net = plot_institutions(institutions_filtered, "Institutions Network")
+combined_plot <- llm_plot / (ml_plot | non_llm_plot)
+print(combined_plot)
 
-institutions_net
-disciplines_net
-countries_net
-
-# Combine plots into a single figure
-#combined_plot <- countries_net + disciplines_net + institutions_net + plot_layout(ncol = 1)
-#combined_plot
+# Save with Cairo device for better rendering
+CairoPDF("combined_disciplines_network_plot.pdf", width = 20, height = 16)
+print(combined_plot)
+dev.off()
