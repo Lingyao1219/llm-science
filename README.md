@@ -80,11 +80,12 @@ library(Cairo)
 ## Instructions for Use
 
 ### Python Scripts
-- [batch.py](https://github.com/Lingyao1219/llm-science/blob/main/batch.py): This code applies GPT4o batch method. 
-- [generate_json.py](https://github.com/Lingyao1219/llm-science/blob/main/generate_json.py): This code generates json files for implementaing the GPT4o batch method. 
-- [model.py](https://github.com/Lingyao1219/llm-science/blob/main/model.py): This code implements several popular LLMs, including GPT4, GPT3.5, and Gemini.
-- [prompt.py](https://github.com/Lingyao1219/llm-science/blob/main/prompt.py): This code lists the prompt design for running GPT4o batch method.
-- [Data_prepare_BSTS.py](https://github.com/Lingyao1219/llm-science/blob/main/Data_prepare_BSTS.py): This code prepares the data for BSTS analysis.
+- [affiliation_matcher.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/affiliation_matcher.py): This code aims to match each piece of academic data based on the extracted affiliation information.
+- [affiliation_processor.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/affiliation_processor.py): This code aims to process academic affiliations data. 
+- [entropy_calculator.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/entropy_calculator.py): This code calculates the Shannon entropy based on authors' institutional and departmental affiliations.
+- [paper_processor.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/paper_processor.py): This code processes paper cleaning through several steps: paper type filtering, date filtering, and duplicate handling.
+- [relevance_checker.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/relevance_checker.py): This code checks the paper relevance to the topic of large language models.
+- [config_utils.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/config_utils.py): This code lists configuration utility functions, including prompt design and gpt model to process paper information.  
 
 ### Jupyter Notebooks
 - [batch_check_paper.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/batch_check_paper.ipynb): This code uses GPT4o batch method to check whether a paper is relevant to the topic of LLMs.
