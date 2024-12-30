@@ -97,8 +97,9 @@ library(Cairo)
 - [DID.R](https://github.com/Lingyao1219/llm-science/blob/main/DID.R): This code runs the difference-in-difference (DID) model.
 
 ## Data Files
-- [Network data](https://github.com/Lingyao1219/llm-science/tree/main/Network%20data): This directory contains three edgelists which are used for network analysis and visualization.
-- The original and cleaned data files are published in (https://doi.org/10.5281/zenodo.14574920).
+- The cleaned papers and entropy data files are published in Zenodo (https://doi.org/10.5281/zenodo.14574920).
+- [network_data](https://github.com/Lingyao1219/llm-science/tree/main/network_data): This directory contains three edgelists which are used for network analysis and visualization.
+- [DID_modeling](https://github.com/Lingyao1219/llm-science/tree/main/DID_modeling): This directory contains data files used for difference-in-difference analysis.
 
 ## Instructions for Use
 
