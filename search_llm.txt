@@ -1,0 +1,3 @@
+start_year,2018
+end_year,2024
+search_terms,"Large language model" OR "LLM" OR "BERT" OR "RoBERTa" OR "GPT" OR "ChatGPT" OR "Claude" OR "Gemini" OR "Llama" OR "LLaMA" OR "PaLM 2" OR "Flan T5" OR "Flan PaLM" OR "Flan UL" OR "Mistral" OR "Mixtral" OR "Qwen" OR "DBRX" OR "davinci-002" OR "davinci-003" OR "Chinchilla" OR "Falcon" OR "BLOOM" OR "LaMDA" OR "Gopher"

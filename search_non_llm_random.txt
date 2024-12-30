@@ -1,0 +1,3 @@
+start_year,2018
+end_year,2024
+search_terms,"Large language model" OR LLM OR BERT OR RoBERTa OR "GPT 2" OR "GPT 3" OR "GPT 4" OR ChatGPT OR "Claude Instant" OR "Claude 1.3" OR "Claude 2" OR "Claude 3" OR "Meta LLaMA" OR "LLaMA 2" OR "LLaMA 3" OR "Google PaLM" OR "Google Gemini" OR "PaLM 2" OR "Gemini Pro" OR "Gemini Ultra" OR "Flan T5" OR "Flan PaLM" OR Mistral OR Mixtral OR Qwen OR DBRX OR "davinci-002" OR "davinci-003" OR "Chinchilla 70B" OR "Falcon 40B" OR "Falcon 7B" OR "Falcon 180B" OR "OPT 66B" OR "BLOOM 176B" OR "GLM 130B"
