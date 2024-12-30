@@ -26,31 +26,36 @@ cd llm-science
 
 2. Install required Python packages:
 ```
-pip3 install pandas matplotlib ast uuid openai google-generativeai networkx networkit powerlaw
+pip3 install pandas numpy matplotlib ast argparse tqdm typing json uuid openai networkx networkit powerlaw pathlib
 ```
 
 3. Install required R packages:
 ```
-install.packages(c("ggraph", "igraph", "ggforce", "concaveman", "RColorBrewer", "ggrepel", "tidygraph", "ggplot2", "patchwork", "CausalImpact", "car", "scales", "reshape2", "forecast"))
+install.packages(c("ggraph", "igraph", "ggforce", "concaveman", "RColorBrewer", "ggrepel", "tidygraph", "ggplot2", "patchwork", "CausalImpact", "car", "scales", "reshape2", "forecast", "Cairo"))
 ```
 
 ### Python Dependencies
 ```
-import datetime
-import pandas as pd
-from ast import literal_eval
-import matplotlib.pyplot as plt
 import os
 import ast
 import uuid
 import string
 import json
+import tqdm
 import time
-from openai import OpenAI
-import google.generativeai as genai
+import argparse
+import random
+import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
 import networkx as nx
 import networkit as nk
 import powerlaw
+from ast import literal_eval
+from openai import OpenAI
+from typing import List, Optional, Set, Tuple, Any
+from pathlib import Path
+from tqdm import tqdm
 ```
 
 ### R Dependencies
@@ -69,6 +74,7 @@ library(car)
 library(scales)
 library(reshape2)
 library(forecast)
+library(Cairo)
 ```
 
 ## Instructions for Use
