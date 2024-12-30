@@ -7,6 +7,7 @@
 - [Installation Guide](#Installation-Guide)
 - [Instructions for Use](#Instructions-for-Use)
 - [Data Files](#Data-Files)
+- [Instructions for Future Use](#Instructions-for-Future-Use)
 - [License](#License)
 - [Reference](#Reference)
 
@@ -116,6 +117,7 @@ Step 2. Put the saved data folder under the data_preparation and run [data_prepa
 
 Step 3. Save the entropy files and run analysis notebook. 
 
+## License
 This project is covered under the Apache 2.0 License.
 
 ## Reference
