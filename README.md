@@ -89,6 +89,7 @@ library(Cairo)
 - [DID_data_preparation.py](https://github.com/Lingyao1219/llm-science/blob/main/DID_modeling/DID_data_preparation.py): This code reads data files output by DID.R script and processes difference-in-difference (DID) results. 
 
 ### Jupyter Notebooks
+- [data_preparation.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/data_preparation.ipynb): This notebook builds the pipeline for data cleaning and calculates the entropy informration after collecting papers from Openalex. 
 - [collaboration_analysis.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/collaboration_analysis.ipynb): This notebook aims to evaluate and analyze the authors' collaboration and conduct statistical analysis. The authors' collaboration diversity is calculated based on Shannon Entropy. 
 - [network_projections_metrics.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/network_projections_and_metrics.ipynb): This notebook is used for bipartite projection of networks and calculation of network metrics (overall cohesion, topology, community structure, and centrality measures).
 
@@ -101,10 +102,20 @@ library(Cairo)
 - [network_data](https://github.com/Lingyao1219/llm-science/tree/main/network_data): This directory contains three edgelists which are used for network analysis and visualization.
 - [DID_modeling](https://github.com/Lingyao1219/llm-science/tree/main/DID_modeling): This directory contains data files used for difference-in-difference analysis.
 
-## Instructions for Use
+## Instructions for Future Use
+Step 1. Collect data using [openalex_scraper.py](https://github.com/Lingyao1219/llm-science/blob/main/openalex_scraper.py), which prvoides two ways of data collection from OpenAlex. 
+To fetch all papers with % sampling (changing the search_conditions.txt)
+```
+python openalex_scraper.py -m all -f search_conditions.txt -p 10
+```
+To fetch random papers with a specific limit (changing the search_conditions.txt)
+```
+python openalex_scraper.py -m random -f search_conditions.txt -n 1000
+```
+Step 2. Put the saved data folder under the data_preparation and run [data_preparation.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/data_preparation.ipynb) (changing the folder name in the notebook)
 
+Step 3. Save the entropy files and run analysis notebook. 
 
-## License
 This project is covered under the Apache 2.0 License.
 
 ## Reference
