@@ -77,31 +77,30 @@ library(forecast)
 library(Cairo)
 ```
 
-## Instructions for Use
-
 ### Python Scripts
+- [openalex_scraper.py](https://github.com/Lingyao1219/llm-science/blob/main/openalex_scraper.py): This code can help scrape papers and their information from OpenAlex, an open-sourced platform for academic papers. 
+- [affiliation_matcher.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/affiliation_matcher.py): This code aims to match each piece of academic data based on the extracted affiliation information.
 - [affiliation_matcher.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/affiliation_matcher.py): This code aims to match each piece of academic data based on the extracted affiliation information.
 - [affiliation_processor.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/affiliation_processor.py): This code aims to process academic affiliations data. 
 - [entropy_calculator.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/entropy_calculator.py): This code calculates the Shannon entropy based on authors' institutional and departmental affiliations.
 - [paper_processor.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/paper_processor.py): This code processes paper cleaning through several steps: paper type filtering, date filtering, and duplicate handling.
 - [relevance_checker.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/relevance_checker.py): This code checks the paper relevance to the topic of large language models.
-- [config_utils.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/config_utils.py): This code lists configuration utility functions, including prompt design and gpt model to process paper information.  
+- [config_utils.py](https://github.com/Lingyao1219/llm-science/blob/main/data_preparation/config_utils.py): This code lists configuration utility functions, including prompt design and gpt model to process paper information.
+- [DID_data_preparation.py](https://github.com/Lingyao1219/llm-science/blob/main/DID_modeling/DID_data_preparation.py): This code reads data files output by DID.R script and processes difference-in-difference (DID) results. 
 
 ### Jupyter Notebooks
-- [batch_check_paper.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/batch_check_paper.ipynb): This code uses GPT4o batch method to check whether a paper is relevant to the topic of LLMs.
-- [batch_extract_authorinfo.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/batch_extract_authorinfo.ipynb): This code uses GPT4o batch method to extract the authors' department information based on their affiliated information. 
-- [collaboration_analysis.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/collaboration_analysis.ipynb): this notebook aims to evaluate and analyze the authors' collaboration. The authors' collaboration diversity is calculated based on Shannon Entropy. 
-- [data_cleaning.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/data_cleaning.ipynb): This notebook is used to clean the papers collected from OpenAlex and ensure that the cleaned papers are relevant to the topics of LLMs.
-- [network_projections_and_metrics.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/network_projections_and_metrics.ipynb): this code is used for bipartite projection of networks and calculation of network metrics (overall cohesion, topology, community structure, and centrality measures).
+- [collaboration_analysis.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/collaboration_analysis.ipynb): This notebook aims to evaluate and analyze the authors' collaboration and conduct statistical analysis. The authors' collaboration diversity is calculated based on Shannon Entropy. 
+- [network_projections_metrics.ipynb](https://github.com/Lingyao1219/llm-science/blob/main/network_projections_and_metrics.ipynb): This notebook is used for bipartite projection of networks and calculation of network metrics (overall cohesion, topology, community structure, and centrality measures).
 
 ### R Scripts
 - [network_visualization.R](https://github.com/Lingyao1219/llm-science/blob/main/network_visualization.R): this code visualizes networks based on Fruchterman-reingold layout. Louvain modularity is used to cluster the networks into subgroups. The top degree centrality filters nodes and edges.
-- [BSTS.R](https://github.com/Lingyao1219/llm-science/blob/main/BSTS.R): This code runs the BSTS model.
-
+- [DID.R](https://github.com/Lingyao1219/llm-science/blob/main/DID.R): This code runs the difference-in-difference (DID) model.
 
 ## Data Files
 - [Network data](https://github.com/Lingyao1219/llm-science/tree/main/Network%20data): This directory contains three edgelists which are used for network analysis and visualization.
 - The original and cleaned data files are published in (https://doi.org/10.5281/zenodo.14574920).
+
+## Instructions for Use
 
 
 ## License
